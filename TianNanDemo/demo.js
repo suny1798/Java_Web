@@ -6,9 +6,7 @@ function show_alert(){
     alert("欢迎来到天南大陆智能学习辅助系统！")
 }
 
-
-
-show_alert();
+// show_alert();
 
 
 // function add(a, b){
@@ -50,6 +48,28 @@ show_alert();
 
 //DOM操作示例
 
-let tittle = document.getElementById("tittle")
+// let tittle = document.getElementById("tittle")
 
-alert(tittle.innerHTML);
+// alert(tittle.innerHTML);
+
+//单个按钮
+document.querySelector(".logout-link").addEventListener("click", function(){
+    alert("登出成功！");
+    }
+);
+
+//多个按钮
+let btn = document.querySelectorAll(".btn-delete");
+
+btn.forEach(function(item){
+    item.addEventListener("click", function(){
+        alert("删除成功！");
+    })
+});
+let btn1 = document.querySelectorAll(".btn-edit");
+
+btn1.forEach(function(item){
+    item.addEventListener("click", function(){
+        alert("编辑成功！");
+    })
+});
