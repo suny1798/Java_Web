@@ -11,39 +11,45 @@ function show_alert(){
 show_alert();
 
 
-function add(a, b){
-    return a + b;
-}
+// function add(a, b){
+//     return a + b;
+// }
 
 
-console.log(add(5, 10));
-
-
-
-let User = {
-    name: "张三",
-    age: 20,
-    greet (){
-        alert("你好，" + this.name);
-    }
-}
-
-
-alert(User.name);
-User.greet();
+// console.log(add(5, 10));
 
 
 
-let Person ={
-    name: "李四",
-    age: 25,
-    gender: "男"
-}
+// let User = {
+//     name: "张三",
+//     age: 20,
+//     greet (){
+//         alert("你好，" + this.name);
+//     }
+// }
 
-alert(JSON.stringify(Person));
 
-let Person2 = JSON.parse('{"name": "王五", "age": 30, "gender": "女"}');
+// alert(User.name);
+// User.greet();
 
-alert(Person2.name);
-alert(Person2.age);
 
+
+// let Person ={
+//     name: "李四",
+//     age: 25,
+//     gender: "男"
+// }
+
+// alert(JSON.stringify(Person));
+
+// let Person2 = JSON.parse('{"name": "王五", "age": 30, "gender": "女"}');
+
+// alert(Person2.name);
+// alert(Person2.age);
+
+
+//DOM操作示例
+
+let tittle = document.getElementById("tittle")
+
+alert(tittle.innerHTML);
