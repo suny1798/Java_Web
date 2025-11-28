@@ -31,3 +31,19 @@ let User = {
 
 alert(User.name);
 User.greet();
+
+
+
+let Person ={
+    name: "李四",
+    age: 25,
+    gender: "男"
+}
+
+alert(JSON.stringify(Person));
+
+let Person2 = JSON.parse('{"name": "王五", "age": 30, "gender": "女"}');
+
+alert(Person2.name);
+alert(Person2.age);
+
