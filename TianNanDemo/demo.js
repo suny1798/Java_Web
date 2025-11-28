@@ -73,3 +73,8 @@ btn1.forEach(function(item){
         alert("编辑成功！");
     })
 });
+
+
+document.querySelector("#name").addEventListener("input", function(){
+    console.log("输入了name！");
+});
