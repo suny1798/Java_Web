@@ -17,3 +17,17 @@ function add(a, b){
 
 
 console.log(add(5, 10));
+
+
+
+let User = {
+    name: "张三",
+    age: 20,
+    greet (){
+        alert("你好，" + this.name);
+    }
+}
+
+
+alert(User.name);
+User.greet();
