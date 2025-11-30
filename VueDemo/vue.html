@@ -7,7 +7,10 @@
 </head>
 <body>
 
-<div id="app">{{ message }}</div>
+<div id="app">
+    <h1>  {{message}}  </h1>
+
+</div>
 
 
 <script type="module">
@@ -15,12 +18,12 @@
     createApp({ 
         data() {
             return {
-                message: 'Hello World!'
+                message: 'Hello Vue!'
             }
         }
 
 
-    }).mount("#text");
+    }).mount("#app");
 </script>
 </script>
 </body>
