@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天南大陆智能学习辅助系统</title>
+    <style>
+        .navbar {
+            background-color: #a19f9f;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            position: fixed; /* 固定定位 */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000; /* 确保在最上层 */
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .logout-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: normal;
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        
+        .logout-link:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .search-form {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            position: sticky; /* 粘性定位 */
+            top: 70px; /* 导航栏高度之后 */
+            z-index: 999;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .data-table-container {
+            padding: 20px;
+            overflow-x: auto;
+            padding-bottom: 80px; /* 根据底部导航栏高度调整 */
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            position: fixed; /* 固定定位 */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .content {
+        flex: 1;
+        margin-top: 100px; /* 根据导航栏高度调整 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="navbar">
+        <h1 class="title", id = "tittle" >天南大陆智能学习辅助系统</h1>
+        <a href="#" class="logout-link">退出登录</a>
+    </div>
+
+    <!-- 页面主要内容区域 -->
+    <div class="content">
+        <!-- 搜索表单 -->
+        <form class="search-form" action="#" method="get">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">姓名:</label>
+                    <input type="text" id="name" name="name" placeholder="请输入姓名">
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">性别:</label>
+                    <select id="gender" name="gender">
+                        <option value="">请选择性别</option>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="position">职务:</label>
+                    <input type="text" id="position" name="position" placeholder="请输入职务">
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">查询</button>
+                    <button type="reset" class="btn btn-secondary">清空</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- 数据表格展示区域 -->
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>头像</th>
+                        <th>职位</th>
+                        <th>入职日期</th>
+                        <th>最后操作时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>韩立</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=HL" alt="韩立头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2020-03-15</td>
+                        <td>2023-10-20 14:30</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>南宫婉</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=NW" alt="南宫婉头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2018-07-22</td>
+                        <td>2023-10-19 09:15</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>紫灵</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=ZL" alt="紫灵头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2021-05-10</td>
+                        <td>2023-10-18 16:45</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>元瑶</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=YY" alt="元瑶头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2020-11-30</td>
+                        <td>2023-10-17 11:20</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>厉飞雨</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=LFY" alt="厉飞雨头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2020-03-15</td>
+                        <td>2023-10-16 13:50</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>墨大夫</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=MDF" alt="墨大夫头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2015-09-01</td>
+                        <td>2023-10-15 10:30</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>向之礼</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=XZL" alt="向之礼头像" class="avatar-img"></td>
+                        <td>班主任</td>
+                        <td>2010-06-12</td>
+                        <td>2023-10-14 15:25</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>菡云芝</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=HYZ" alt="菡云芝头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2017-02-18</td>
+                        <td>2023-10-13 08:40</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>银月</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=YUE" alt="银月头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2022-01-05</td>
+                        <td>2023-10-12 17:10</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>蟹道人</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=XDR" alt="蟹道人头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2019-12-20</td>
+                        <td>2023-10-11 12:05</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>厉飞雨</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=LFY" alt="厉飞雨头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2020-03-15</td>
+                        <td>2023-10-16 13:50</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>墨大夫</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=MDF" alt="墨大夫头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2015-09-01</td>
+                        <td>2023-10-15 10:30</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>向之礼</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=XZL" alt="向之礼头像" class="avatar-img"></td>
+                        <td>班主任</td>
+                        <td>2010-06-12</td>
+                        <td>2023-10-14 15:25</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>菡云芝</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=HYZ" alt="菡云芝头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2017-02-18</td>
+                        <td>2023-10-13 08:40</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>银月</td>
+                        <td>女</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=YUE" alt="银月头像" class="avatar-img"></td>
+                        <td>学生</td>
+                        <td>2022-01-05</td>
+                        <td>2023-10-12 17:10</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>蟹道人</td>
+                        <td>男</td>
+                        <td><img src="https://via.placeholder.com/40x40?text=XDR" alt="蟹道人头像" class="avatar-img"></td>
+                        <td>讲师</td>
+                        <td>2019-12-20</td>
+                        <td>2023-10-11 12:05</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="footer" id="footer">
+        <div class="contact-info">
+            <div class="info-item" v-for="(item, index) in footer_info" :key="item.id">
+                <span class="info-label">{{item.item}}</span>
+                <span class="info-value">{{item.value}}</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createApp } from 'https://cdn.jsdelivr.net/npm/vue@3.2.26/dist/vue.esm-browser.js';
+        createApp({ 
+            data() {
+                return {
+                   footer_info:[
+                    {
+                        "item" : "邮箱:",
+                        "value": "example@example.com"
+                    },
+                    {
+                        "item" : "地址:",
+                        "value": "北京市朝阳区xxx街道"
+                    },
+                    {
+                        "item" : "GitHub:",
+                        "value": "github.com/example"
+                    }
+                    
+                   ] 
+                }
+            },
+
+
+
+
+        }).mount('#footer');
+    </script>
+</body>
+</html>
