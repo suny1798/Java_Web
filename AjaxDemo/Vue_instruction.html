@@ -339,7 +339,16 @@
             },
             methods: {
                 async handle(){
-                    let result = await axios.get(`https://web-server.itheima.net/emps/list?name=${this.seaechForm.name}&gender=${this.seaechForm.gender}&job=${this.seaechForm.job}`)
+                            // 转换性别值
+                    let genderParam = "";
+                    if (this.seaechForm.gender === "male") {
+                        genderParam = "1";
+                    } else if (this.seaechForm.gender === "female") {
+                        genderParam = "2";
+                    }
+
+                    // console.log(this.seaechForm);
+                    let result = await axios.get(`https://web-server.itheima.net/emps/list?name=${this.seaechForm.name}&gender=${genderParam}&job=${this.seaechForm.job}`)
                     
                     this.person_info = result.data.data;
 
@@ -351,7 +360,12 @@
                         "job" : ""
                     }
                     this.handle()
-                }
+                },
+
+              
+            },  
+            mounted() {
+                this.handle()
             },
 
         }).mount('#container');
