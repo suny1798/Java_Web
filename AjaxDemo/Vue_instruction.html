@@ -338,15 +338,11 @@
                 }
             },
             methods: {
-                handle(){
-                    axios.get(`https://web-server.itheima.net/emps/list?name=${this.seaechForm.name}&gender=${this.seaechForm.gender}&job=${this.seaechForm.job}`).then((result) => {
-                        this.person_info = result.data.data;
-                    }).catch((err) => {
-                        console.log(err);
-                        
-                    });
+                async handle(){
+                    let result = await axios.get(`https://web-server.itheima.net/emps/list?name=${this.seaechForm.name}&gender=${this.seaechForm.gender}&job=${this.seaechForm.job}`)
+                    
+                    this.person_info = result.data.data;
 
-                    console.log("=============================");
                 },
                 clear(){
                     this.seaechForm = {
