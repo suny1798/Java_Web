@@ -281,11 +281,15 @@
                 <tbody>
                     <tr v-for="(e, index) in person_info" :key="index">
                         <td>{{e.name}}</td>
-                        <td>{{e.sex}}</td>
-                        <td><img :src="e.avatar" alt="头像" class="avatar-img"></td>
-                        <td>{{e.job}}</td>
-                        <td>{{e.join}}</td>
-                        <td>{{e.action}}</td>
+                        <td>{{e.gender == 1?'男' :'女'}}</td>
+                        <td><img :src="e.image" alt="头像" class="avatar-img"></td>
+                        <td v-if="e.job == 1">班主任</td>
+                        <td v-else-if="e.job == 2">学生</td>
+                        <td v-else-if="e.job == 3">讲师</td>
+                        <td v-else-if="e.job == 4">主管</td>
+                        <td v-else>未知</td>
+                        <td>{{e.entrydate}}</td>
+                        <td>{{e.updatetime}}</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="btn-edit">编辑</button>
@@ -318,6 +322,7 @@
         </div>
     </div>
 
+    <script src = "https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module">
         import { createApp } from 'https://cdn.jsdelivr.net/npm/vue@3.2.26/dist/vue.esm-browser.js';
         createApp({ 
@@ -329,78 +334,19 @@
                             "job" : ""
                     },
 
-                    person_info:[
-                        {
-                            "name" : "韩立",
-                            "sex"  : "男",
-                            "avatar": "icon/3.png",
-                            "job"  : "学生",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },    
-                        {
-                            "name" : "南宫婉",
-                            "sex"  : "女",
-                            "avatar": "icon/2.png",
-                            "job"  : "学生",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },    
-                        {
-                            "name" : "紫灵",
-                            "sex"  : "女",
-                            "avatar": "icon/1.png",
-                            "job"  : "学生",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },
-                        {
-                            "name" : "元瑶",
-                            "sex"  : "女",
-                            "avatar": "icon/5.png",
-                            "job"  : "学生",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        }, 
-                        {
-                            "name" : "莫大夫",
-                            "sex"  : "男",
-                            "avatar": "icon/4.png",
-                            "job"  : "讲师",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },
-                        {
-                            "name" : "菡云芝",
-                            "sex"  : "女",
-                            "avatar": "icon/1.png",
-                            "job"  : "学生",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },    
-                        {
-                            "name" : "向之礼",
-                            "sex"  : "男",
-                            "avatar": "icon/2.png",
-                            "job"  : "班主任",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },
-                        {
-                            "name" : "银月",
-                            "sex"  : "女",
-                            "avatar": "icon/1.png",
-                            "job"  : "学生",
-                            "join" : "2010-06-12",
-                            "action": "2023-10-14 15:25"
-                        },    
-
-                    ]
+                    person_info:[]
                 }
             },
             methods: {
                 handle(){
-                    console.log(this.seaechForm)
+                    axios.get(`https://web-server.itheima.net/emps/list?name=${this.seaechForm.name}&gender=${this.seaechForm.gender}&job=${this.seaechForm.job}`).then((result) => {
+                        this.person_info = result.data.data;
+                    }).catch((err) => {
+                        console.log(err);
+                        
+                    });
+
+                    console.log("=============================");
                 },
                 clear(){
                     this.seaechForm = {
@@ -408,6 +354,7 @@
                         "gender" : "",
                         "job" : ""
                     }
+                    this.handle()
                 }
             },
 
