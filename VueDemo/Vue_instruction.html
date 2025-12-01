@@ -237,16 +237,15 @@
     <!-- 页面主要内容区域 -->
     <div class="content" id="container">
         <!-- 搜索表单 -->
-        <form class="search-form" action="#" method="get">
+        <form class="search-form">
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">姓名:</label>
-                    <input type="text" id="name" name="name" placeholder="请输入姓名">
+                    <input type="text" id="name" name="name" placeholder="请输入姓名" v-model="seaechForm.name">
                 </div>
-                
                 <div class="form-group">
                     <label for="gender">性别:</label>
-                    <select id="gender" name="gender">
+                    <select id="gender" name="gender" v-model="seaechForm.gender">
                         <option value="">请选择性别</option>
                         <option value="male">男</option>
                         <option value="female">女</option>
@@ -255,12 +254,12 @@
                 
                 <div class="form-group">
                     <label for="position">职务:</label>
-                    <input type="text" id="position" name="position" placeholder="请输入职务">
+                    <input type="text" id="position" name="position" placeholder="请输入职务" v-model="seaechForm.job">
                 </div>
                 
                 <div class="form-buttons">
-                    <button type="submit" class="btn btn-primary">查询</button>
-                    <button type="reset" class="btn btn-secondary">清空</button>
+                    <button type="button" class="btn btn-primary" @click="handle">查询</button>
+                    <button type="button" class="btn btn-secondary" @click="clear">清空</button>
                 </div>
             </div>
         </form>
@@ -324,6 +323,12 @@
         createApp({ 
             data() {
                 return {
+                    seaechForm:{
+                            "name" : "",
+                            "gender" : "",
+                            "job" : ""
+                    },
+
                     person_info:[
                         {
                             "name" : "韩立",
@@ -333,6 +338,30 @@
                             "join" : "2010-06-12",
                             "action": "2023-10-14 15:25"
                         },    
+                        {
+                            "name" : "南宫婉",
+                            "sex"  : "女",
+                            "avatar": "头像",
+                            "job"  : "学生",
+                            "join" : "2010-06-12",
+                            "action": "2023-10-14 15:25"
+                        },    
+                        {
+                            "name" : "紫灵",
+                            "sex"  : "女",
+                            "avatar": "头像",
+                            "job"  : "学生",
+                            "join" : "2010-06-12",
+                            "action": "2023-10-14 15:25"
+                        },
+                        {
+                            "name" : "元瑶",
+                            "sex"  : "女",
+                            "avatar": "头像",
+                            "job"  : "学生",
+                            "join" : "2010-06-12",
+                            "action": "2023-10-14 15:25"
+                        }, 
                         {
                             "name" : "莫大夫",
                             "sex"  : "男",
@@ -367,6 +396,18 @@
                         },    
 
                     ]
+                }
+            },
+            methods: {
+                handle(){
+                    console.log(this.seaechForm)
+                },
+                clear(){
+                    this.seaechForm = {
+                        "name" : "",
+                        "gender" : "",
+                        "job" : ""
+                    }
                 }
             },
 
