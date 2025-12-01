@@ -9,6 +9,7 @@
         <module name="TianNanDemo" />
         <module name="AjaxDemo" />
         <module name="newsDemo" />
+        <module name="testDemo" />
         <module name="VueDemo" />
       </profile>
     </annotationProcessing>

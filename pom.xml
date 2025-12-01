@@ -16,6 +16,7 @@
         <module>newsDemo</module>
         <module>TianNanDemo</module>
         <module>VueDemo</module>
+        <module>testDemo</module>
     </modules>
 
 </project>
