@@ -16,6 +16,8 @@
         <module>newsDemo</module>
         <module>TianNanDemo</module>
         <module>VueDemo</module>
+        <module>JUnitDemo</module>
+        <module>JDBCdemo</module>
     </modules>
 
 </project>
